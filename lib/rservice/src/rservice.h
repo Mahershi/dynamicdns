@@ -7,11 +7,22 @@
 class RService{
     static WiFiClientSecure client;
     static HTTPClient http;
-    static WiFiClient client2;
 
     public:
         static void init();
-        static void get(String url);
+        static void begin(
+            String url,
+            String *qp_keys = NULL,
+            String *qp_values = NULL,
+            int qp_size = 0
+        );
+        static String get();
+
+        static void add_header(
+            String key,
+            String value
+        );
+
 };
 
 
