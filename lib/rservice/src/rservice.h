@@ -17,7 +17,7 @@ class RService{
             int qp_size = 0
         );
         static String get();
-
+        static bool put(String payload);
         static void add_header(
             String key,
             String value

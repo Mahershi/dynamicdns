@@ -30,26 +30,51 @@ void RService::begin(
         Serial.print("URL is Valid: ");
         Serial.println(isvalid);
         
-    }catch(...){
-        Serial.println("RestService.begin: Exception occured");
+    }catch(char *e){
+        Serial.print("RestService.begin: Exception occured: ");
+        Serial.println(e);
     }
 }
 
 void RService::add_header(String key, String value){
     try{
         http.addHeader(key, value);
-    }catch(...){
-        Serial.println("RestService.add_header: Exception occured");
+    }catch(char *e){
+        Serial.print("RestService.add_header: Exception occured");
+        Serial.println(e);
     }
     
+}
+
+bool RService::put(String payload){
+    Serial.println("PUT: ");
+    Serial.println(payload);
+    try{
+        int statusCode = http.PUT(payload);
+        
+        if (statusCode == 200){
+            Serial.println(statusCode);
+            http.end();
+            return true;
+        }else{
+            Serial.print("Couldnt Call HTTP PUT, Status Code: ");
+            Serial.println(statusCode);
+            return false;
+        }
+    }catch(char *e){
+        Serial.print("RestService.put: Exception occured: ");
+        Serial.println(e);
+    }
+    return false;
 }
 
 String RService::get(){
     try{
         int statusCode = http.GET();
-        Serial.println(statusCode);
         if(statusCode == 200){
+            Serial.println(statusCode);
             String line = http.getString();
+            http.end();
             Serial.println(line);
             return line;
         }else{
@@ -57,8 +82,9 @@ String RService::get(){
             Serial.println(statusCode);
             return "NULL";
         }
-    }catch(...){
-        Serial.println("RestService.get: Exception occured");
+    }catch(char *e){
+        Serial.print("RestService.get: Exception occured: ");
+        Serial.println(e);
     }
     return "NULL";
 }
