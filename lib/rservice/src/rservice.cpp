@@ -27,7 +27,7 @@ void RService::begin(
         }
         Serial.println(url);
         bool isvalid = http.begin(client, url.c_str());
-        Serial.print("URL is Valid: ");
+        Serial.print("URL Valid: ");
         Serial.println(isvalid);
         
     }catch(char *e){
@@ -59,6 +59,7 @@ bool RService::put(String payload){
         }else{
             Serial.print("Couldnt Call HTTP PUT, Status Code: ");
             Serial.println(statusCode);
+            Serial.println();
             return false;
         }
     }catch(char *e){
@@ -70,6 +71,7 @@ bool RService::put(String payload){
 
 String RService::get(){
     try{
+        
         int statusCode = http.GET();
         if(statusCode == 200){
             Serial.println(statusCode);
